@@ -1,10 +1,20 @@
-# Email Campaign Lift Analysis (R)
+# Email Campaign Lift Analysis
 
-Randomized email experiment on the Kevin Hillstrom MineThatData E-Mail Analytics dataset (2008):
-64,000 customers randomly assigned to a Mens e-mail, a Womens e-mail, or no e-mail (control),
-with visit, conversion, and spend outcomes over the following two weeks.
+**Stack:** R (base), Python (statsmodels) cross-check
 
-The analysis is written in base R (`R/email_lift.R`) and cross-checked in Python (`validation/crosscheck.py`).
+## Business problem
+A retailer emails customers every campaign, but **does the email itself cause purchases, and how
+much revenue does it add?** Customers who open emails were likely to buy anyway, so comparing
+openers with non-openers overstates the effect. A randomized holdout gives the true causal lift,
+and it tells marketing which email version to send.
+
+## STAR summary
+| | |
+|---|---|
+| **Situation** | A retailer randomly split 64,000 recent customers into three groups: a men's merchandise email, a women's merchandise email, and no email, then tracked visits, conversions and spend for two weeks. |
+| **Task** | Estimate the causal conversion lift and incremental revenue from the email, confirm the randomization held, and compare the two email versions. |
+| **Action** | Ran a sample-ratio test and covariate balance check, a two-proportion z-test, a bootstrap confidence interval for incremental revenue, and a propensity score matching check, all in base R; recomputed the headline statistics in Python. |
+| **Result** | Email raised conversion **86.5%** (1.07% vs 0.57%, z = 6.24, p = 4.27e-10) and added **$25,480** in revenue (95% CI $16,119 to $34,782). The men's email lifted conversions **118.8%** vs **54.3%** for the women's email. Randomization held (SRM p = 0.904), and matching agreed with the raw estimate (0.48 vs 0.50 pp). |
 
 ## Results (`results/results.json`)
 | Metric | Value |
