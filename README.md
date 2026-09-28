@@ -2,19 +2,24 @@
 
 **Stack:** R (base), Python (statsmodels) cross-check
 
-## Business problem
-A retailer emails customers every campaign, but **does the email itself cause purchases, and how
-much revenue does it add?** Customers who open emails were likely to buy anyway, so comparing
-openers with non-openers overstates the effect. A randomized holdout gives the true causal lift,
-and it tells marketing which email version to send.
+## Business Problem
+A retailer emails customers every campaign, but **does the email itself cause purchases, and how much
+revenue does it add?** Customers who open emails were likely to buy anyway, so comparing openers with
+non-openers overstates the effect. Only a randomized holdout gives the true causal lift, and it also
+tells marketing which email version to send.
 
-## STAR summary
-| | |
-|---|---|
-| **Situation** | A retailer randomly split 64,000 recent customers into three groups: a men's merchandise email, a women's merchandise email, and no email, then tracked visits, conversions and spend for two weeks. |
-| **Task** | Estimate the causal conversion lift and incremental revenue from the email, confirm the randomization held, and compare the two email versions. |
-| **Action** | Ran a sample-ratio test and covariate balance check, a two-proportion z-test, a bootstrap confidence interval for incremental revenue, and a propensity score matching check, all in base R; recomputed the headline statistics in Python. |
-| **Result** | Email raised conversion **86.5%** (1.07% vs 0.57%, z = 6.24, p = 4.27e-10) and added **$25,480** in revenue (95% CI $16,119 to $34,782). The men's email lifted conversions **118.8%** vs **54.3%** for the women's email. Randomization held (SRM p = 0.904), and matching agreed with the raw estimate (0.48 vs 0.50 pp). |
+## Steps Taken to Resolve
+1. **Used a real randomized experiment:** 64,000 customers split into a men's merchandise email, a women's merchandise email, and no email, with visits, conversions and spend tracked for two weeks.
+2. **Checked the randomization:** a sample-ratio test on the three arms and a covariate balance check on customer history.
+3. **Estimated the causal effect:** a two-proportion z-test on conversion and a bootstrap 95% confidence interval for incremental revenue, all in base R.
+4. **Compared the email versions:** conversion lift for each arm against the no-email control.
+5. **Stress-tested the result:** a propensity score matching estimate compared with the raw difference, plus an independent Python recompute of the headline statistics.
+
+## Achievements
+- Email raised conversion by **86.5%** (1.07% vs 0.57%, z = 6.24, p = 4.27e-10).
+- Added **$25,480** in incremental revenue (95% CI $16,119 to $34,782).
+- The men's email lifted conversion **118.8%** vs **54.3%** for the women's email.
+- Confirmed a clean experiment: no sample-ratio mismatch (p = 0.904), balanced covariates (max standardized difference 0.007), and matching agreed with the raw estimate (0.48 vs 0.50 pp); Python recompute: **0 mismatches**.
 
 ## Results (`results/results.json`)
 | Metric | Value |
